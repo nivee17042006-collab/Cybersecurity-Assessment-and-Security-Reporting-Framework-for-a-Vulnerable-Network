@@ -1,0 +1,55 @@
+================================================================================
+LINUX INTERNAL SERVICE & KERNEL SECURITY AUDIT
+Host: metasploitable (192.168.56.101) | Kernel: 2.6.24-16-server (x86)
+Auditor: Cybersecurity Assessment Framework Engine
+================================================================================
+
+1. COMMAND: ss -tulpn (Socket Statistics / Active Listeners)
+--------------------------------------------------------------------------------
+Netid  State   Recv-Q Send-Q  Local Address:Port   Peer Address:Port  Process
+tcp    LISTEN  0      128           0.0.0.0:21            0.0.0.0:*      users:(("vsftpd",pid=4821,fd=3))
+tcp    LISTEN  0      128           0.0.0.0:22            0.0.0.0:*      users:(("sshd",pid=4610,fd=3))
+tcp    LISTEN  0      128           0.0.0.0:23            0.0.0.0:*      users:(("inetd",pid=4712,fd=5))
+tcp    LISTEN  0      128           0.0.0.0:25            0.0.0.0:*      users:(("master",pid=5120,fd=12))
+tcp    LISTEN  0      128           0.0.0.0:80            0.0.0.0:*      users:(("apache2",pid=5311,fd=4))
+tcp    LISTEN  0      128           0.0.0.0:139           0.0.0.0:*      users:(("smbd",pid=4932,fd=22))
+tcp    LISTEN  0      128           0.0.0.0:445           0.0.0.0:*      users:(("smbd",pid=4932,fd=23))
+tcp    LISTEN  0      128           0.0.0.0:1524          0.0.0.0:*      users:(("inetd",pid=4712,fd=7))
+tcp    LISTEN  0      128           0.0.0.0:3306          0.0.0.0:*      users:(("mysqld",pid=5420,fd=11))
+tcp    LISTEN  0      128           0.0.0.0:3632          0.0.0.0:*      users:(("distccd",pid=5580,fd=4))
+tcp    LISTEN  0      128           0.0.0.0:5432          0.0.0.0:*      users:(("postmaster",pid=5610,fd=3))
+tcp    LISTEN  0      128           0.0.0.0:6667          0.0.0.0:*      users:(("ircd",pid=5820,fd=4))
+tcp    LISTEN  0      128           0.0.0.0:8180          0.0.0.0:*      users:(("java",pid=6010,fd=34))
+udp    UNCONN  0      0             0.0.0.0:69            0.0.0.0:*      users:(("inetd",pid=4712,fd=9))
+udp    UNCONN  0      0             0.0.0.0:161           0.0.0.0:*      users:(("snmpd",pid=5201,fd=8))
+
+AUDIT OBSERVATION:
+- Critical daemons (MySQL, PostgreSQL, distccd) are bound to 0.0.0.0 (all interfaces)
+  instead of 127.0.0.1 (loopback), unnecessarily exposing database engines to the LAN.
+
+2. COMMAND: iptables -L -n -v (Firewall Rules Verification)
+--------------------------------------------------------------------------------
+Chain INPUT (policy ACCEPT 1420 packets, 185K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 1210 packets, 210K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+AUDIT OBSERVATION:
+- FIREWALL IS ENTIRELY ABSENT. Default policies on INPUT and OUTPUT are ACCEPT with zero filter rules.
+- System lacks any perimeter defense, allowing unhindered port scanning and direct exploitation.
+
+3. COMMAND: ps aux | grep -E "root|daemon" (High Privilege Process Audit)
+--------------------------------------------------------------------------------
+root      4712  0.0  0.1   1856   592 ?        Ss   10:00   0:00 /usr/sbin/inetd
+root      4821  0.0  0.2   2388   812 ?        Ss   10:00   0:00 /usr/sbin/vsftpd
+root      4932  0.0  1.1  10284  4212 ?        Ss   10:00   0:00 /usr/sbin/smbd -D
+root      5580  0.0  0.3   3120  1100 ?        Ss   10:00   0:00 /usr/bin/distccd --daemon
+
+AUDIT OBSERVATION:
+- vsftpd, inetd, smbd, and distccd are actively running as ROOT (UID 0).
+- Any remote code execution vulnerability in these services immediately yields root administrative takeover.
+================================================================================

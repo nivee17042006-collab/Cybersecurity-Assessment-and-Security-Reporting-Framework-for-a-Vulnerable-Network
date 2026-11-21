@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<nmaprun scanner="nmap" args="nmap -sS -sU -sV -O -p T:21-25,53,80,111,139,445,512-514,1099,1524,2049,3306,3632,5432,5900,6667,8180,U:53,69,111,137,161,2049 192.168.56.101" start="1795244000" version="7.94SVN">
+<host starttime="1795244001" endtime="1795244180">
+<status state="up" reason="arp-response"/>
+<address addr="192.168.56.101" addrtype="ipv4"/>
+<hostnames><hostname name="metasploitable.localdomain" type="PTR"/></hostnames>
+<ports>
+<port protocol="tcp" portid="21"><state state="open"/><service name="ftp" product="vsftpd" version="2.3.4"/></port>
+<port protocol="tcp" portid="22"><state state="open"/><service name="ssh" product="OpenSSH" version="4.7p1"/></port>
+<port protocol="tcp" portid="23"><state state="open"/><service name="telnet" product="Linux telnetd"/></port>
+<port protocol="tcp" portid="25"><state state="open"/><service name="smtp" product="Postfix smtpd"/></port>
+<port protocol="tcp" portid="53"><state state="open"/><service name="domain" product="BIND" version="9.4.2"/></port>
+<port protocol="tcp" portid="80"><state state="open"/><service name="http" product="Apache httpd" version="2.2.8"/></port>
+<port protocol="tcp" portid="111"><state state="open"/><service name="rpcbind" version="2"/></port>
+<port protocol="tcp" portid="139"><state state="open"/><service name="netbios-ssn" product="Samba smbd" version="3.X"/></port>
+<port protocol="tcp" portid="445"><state state="open"/><service name="netbios-ssn" product="Samba smbd" version="3.X"/></port>
+<port protocol="tcp" portid="512"><state state="open"/><service name="exec" product="netkit-rsh rexecd"/></port>
+<port protocol="tcp" portid="513"><state state="open"/><service name="login" product="OpenBSD libc rlogind"/></port>
+<port protocol="tcp" portid="514"><state state="open"/><service name="shell" product="Netkit rshd"/></port>
+<port protocol="tcp" portid="1099"><state state="open"/><service name="rmiregistry" product="GNU Classpath"/></port>
+<port protocol="tcp" portid="1524"><state state="open"/><service name="ingreslock" product="Metasploitable root shell"/></port>
+<port protocol="tcp" portid="2049"><state state="open"/><service name="nfs" version="2-4"/></port>
+<port protocol="tcp" portid="3306"><state state="open"/><service name="mysql" product="MySQL" version="5.0.51a"/></port>
+<port protocol="tcp" portid="3632"><state state="open"/><service name="distcc" product="distccd" version="v1"/></port>
+<port protocol="tcp" portid="5432"><state state="open"/><service name="postgresql" product="PostgreSQL DB" version="8.3"/></port>
+<port protocol="tcp" portid="5900"><state state="open"/><service name="vnc" product="VNC" version="3.3"/></port>
+<port protocol="tcp" portid="6667"><state state="open"/><service name="irc" product="UnrealIRCd" version="3.2.8.1"/></port>
+<port protocol="tcp" portid="8180"><state state="open"/><service name="http-proxy" product="Apache Tomcat" version="5.5"/></port>
+<port protocol="udp" portid="53"><state state="open"/><service name="domain" product="BIND" version="9.4.2"/></port>
+<port protocol="udp" portid="69"><state state="open"/><service name="tftp" product="Linux TFTP"/></port>
+<port protocol="udp" portid="111"><state state="open"/><service name="rpcbind" version="2"/></port>
+<port protocol="udp" portid="137"><state state="open"/><service name="netbios-ns" product="Samba smbd"/></port>
+<port protocol="udp" portid="161"><state state="open"/><service name="snmp" product="SNMPv1 server" extrainfo="community: public"/></port>
+<port protocol="udp" portid="2049"><state state="open"/><service name="nfs" version="2-4"/></port>
+</ports>
+<os><osmatch name="Linux 2.6.9 - 2.6.33" accuracy="100"/></os>
+</host>
+</nmaprun>

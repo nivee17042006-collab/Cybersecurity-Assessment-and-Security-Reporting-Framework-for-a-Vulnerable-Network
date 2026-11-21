@@ -1,0 +1,66 @@
+================================================================================
+WIRESHARK & PACKET INSPECTION SECURITY AUDIT REPORT
+Target: Metasploitable 2 (192.168.56.101) | Sniffer Station: Kali Linux (192.168.56.102)
+Capture Interface: vboxnet0 / eth0 | Tool: Wireshark 4.2.x & TShark
+================================================================================
+
+1. EXECUTIVE OVERVIEW
+--------------------------------------------------------------------------------
+Packet capture and deep protocol inspection were conducted during the assessment
+to demonstrate transport-layer security flaws. While port scanning reveals listening
+services, packet analysis proves the real-world exploitability of unencrypted
+protocols across the subnet.
+
+Captured Traffic Files Included:
+- captures/telnet_cleartext_traffic.pcap (TCP Port 23 analysis)
+- captures/ftp_cleartext_traffic.pcap    (TCP Port 21 analysis)
+
+2. TCP 3-WAY HANDSHAKE VERIFICATION
+--------------------------------------------------------------------------------
+Packet #1: 192.168.56.102:49152 -> 192.168.56.101:23 [SYN] Seq=0 Win=64240 Len=0
+Packet #2: 192.168.56.101:23 -> 192.168.56.102:49152 [SYN, ACK] Seq=0 Ack=1 Win=64240 Len=0
+Packet #3: 192.168.56.102:49152 -> 192.168.56.101:23 [ACK] Seq=1 Ack=1 Win=64240 Len=0
+Observation: Handshake confirms active listening service and absence of stateful TCP SYN cookies.
+
+3. STREAM RECONSTRUCTION: TELNET (PORT 23) CLEARTEXT CREDENTIAL SNIFFING
+--------------------------------------------------------------------------------
+Filter: tcp.port == 23 && tcp.payload
+Dissector: Telnet / NVTs (Network Virtual Terminal)
+
+Follow TCP Stream Output:
+--------------------------------------------------
+Ubuntu 8.04
+metasploitable login: msfadmin
+Password: msfadmin
+Last login: Fri Nov 20 from 192.168.56.1
+msfadmin@metasploitable:~$ 
+--------------------------------------------------
+Security Observation:
+- Telnet transmits data entirely in ASCII cleartext.
+- An attacker with access to local broadcast or ARP poisoning capabilities
+  can passively record usernames, passwords, and executed shell commands.
+- Risk Classification: HIGH (CVSS: 7.5 - Confidentiality & Integrity impact)
+
+4. STREAM RECONSTRUCTION: FTP (PORT 21) CONTROL CHANNEL SNIFFING
+--------------------------------------------------------------------------------
+Filter: ftp || ftp-data
+
+Follow TCP Stream Output:
+--------------------------------------------------
+220 (vsFTPd 2.3.4)
+USER msfadmin
+331 Please specify the password.
+PASS msfadmin
+230 Login successful.
+--------------------------------------------------
+Security Observation:
+- FTP RFC 959 sends authentication credentials in plaintext `USER` and `PASS` commands.
+- Furthermore, the service banner advertises `vsFTPd 2.3.4`, confirming known backdoor vulnerability.
+
+5. NETWORK MITIGATION DIRECTIVE
+--------------------------------------------------------------------------------
+- Immediately deprecate Telnet (Port 23) in favor of SSHv2 (Port 22) with AES-GCM encryption.
+- Disable unencrypted FTP (Port 21) in favor of SFTP (SSH File Transfer Protocol) or FTPS (TLS).
+- Implement 802.1X Network Access Control (NAC) and Dynamic ARP Inspection (DAI) on switches
+  to prevent rogue packet sniffing and ARP cache poisoning.
+================================================================================

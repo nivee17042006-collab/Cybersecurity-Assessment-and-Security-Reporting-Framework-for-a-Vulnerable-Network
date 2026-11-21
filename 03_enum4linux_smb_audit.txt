@@ -1,0 +1,36 @@
+================================================================================
+ENUM4LINUX - SMB & NETBIOS ENUMERATION REPORT
+Target: 192.168.56.101 | Workgroup: WORKGROUP | Domain: METASPLOITABLE
+================================================================================
+
+[+] Target Information
+    Target IP: 192.168.56.101
+    NetBIOS Name: METASPLOITABLE
+    Workgroup: WORKGROUP
+    OS: Unix (Samba 3.0.20-Debian)
+
+[+] Share Enumeration via NetShareEnum:
+    Sharename       Type       Comment
+    ---------       ----       -------
+    print$          Disk       Printer Drivers
+    tmp             Disk       oh noes!
+    opt             Disk       
+    ADMIN$          Disk       IPC Service (metasploitable server (Samba 3.0.20-Debian))
+    IPC$            IPC        IPC Service (metasploitable server (Samba 3.0.20-Debian))
+
+[+] Testing Anonymous / Null Session:
+    [+] Server allows NULL sessions!
+    [+] Anonymous read/write access confirmed on share: //192.168.56.101/tmp
+    [+] Anonymous read access confirmed on share: //192.168.56.101/opt
+
+[+] User Enumeration via RID Cycling:
+    [+] Found user: msfadmin (RID 1000)
+    [+] Found user: user (RID 1001)
+    [+] Found user: postgres (RID 1002)
+    [+] Found user: service (RID 1003)
+
+[+] Password Policy:
+    Minimum Password Length: 0
+    Password Complexity: Disabled
+    Account Lockout Threshold: None
+================================================================================

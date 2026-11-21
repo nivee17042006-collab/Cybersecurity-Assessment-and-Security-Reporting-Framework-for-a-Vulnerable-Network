@@ -1,0 +1,57 @@
+# Nmap 7.94SVN scan initiated Sat Nov 21 11:38:00 2026 as: nmap --script vuln -p 21,22,23,25,80,139,445,1524,3306,3632,5432,6667,8180 192.168.56.101 -oN Major_Project/scans/nmap_enterprise_vuln_scripts.nmap
+Nmap scan report for 192.168.56.101
+Host is up (0.00038s latency).
+
+PORT     STATE SERVICE
+21/tcp   open  ftp
+| ftp-vsftpd-backdoor: 
+|   VULNERABLE:
+|   vsFTPd version 2.3.4 backdoor
+|     State: VULNERABLE (Exploitable)
+|     IDs:  CVE:CVE-2011-2523  OSVDB:73573
+|       vsFTPd version 2.3.4 contains a backdoor in the smile face :) trigger
+|       that opens a listening shell on port 6200.
+
+80/tcp   open  http
+| http-slowloris-check: 
+|   VULNERABLE:
+|   Slowloris DOS attack
+|     State: LIKELY VULNERABLE
+|     IDs:  CVE:CVE-2007-6750
+| http-enum: 
+|   /phpMyAdmin/: phpMyAdmin
+|   /dvwa/: Damn Vulnerable Web Application
+|   /mutillidae/: Mutillidae II
+
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+| samba-vuln-cve-2007-2447:
+|   VULNERABLE:
+|   Samba "username map script" Command Execution
+|     State: VULNERABLE (Exploitable)
+|     IDs: CVE:CVE-2007-2447
+
+1524/tcp open  ingreslock
+| root-shell-backdoor:
+|   VULNERABLE:
+|   Direct Root Bindshell
+|     State: CRITICAL
+|     Description: Unauthenticated root shell directly accessible upon TCP connection.
+
+3632/tcp open  distcc
+| distcc-cve2004-2687:
+|   VULNERABLE:
+|   DistCC Daemon Command Execution
+|     State: VULNERABLE (Exploitable)
+|     IDs: CVE:CVE-2004-2687
+
+6667/tcp open  irc
+| irc-unrealircd-backdoor: 
+|   VULNERABLE:
+|   UnrealIRCd version 3.2.8.1 backdoor
+|     State: VULNERABLE (Exploitable)
+|     IDs:  CVE:CVE-2010-2075
+
+MAC Address: 08:00:27:48:8A:23 (Oracle VirtualBox virtual NIC)
+
+# Nmap done at Sat Nov 21 11:42:15 2026 -- 1 IP address (1 host up) scanned in 255.12 seconds

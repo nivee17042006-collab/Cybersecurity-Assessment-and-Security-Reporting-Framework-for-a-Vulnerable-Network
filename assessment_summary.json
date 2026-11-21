@@ -1,0 +1,32 @@
+{
+  "project": "Cybersecurity Assessment & Security Reporting Framework",
+  "target_host": "192.168.56.101",
+  "auditor_host": "192.168.56.102",
+  "environment": "Controlled Virtual Lab (Kali Linux & Metasploitable 2)",
+  "tools_leveraged": [
+    "Nmap",
+    "Wireshark / TShark",
+    "Linux CLI Auditing",
+    "Nikto",
+    "Enum4linux",
+    "Hydra"
+  ],
+  "open_ports_count": 27,
+  "vulnerability_counts": {
+    "CRITICAL": 5,
+    "HIGH": 8,
+    "MEDIUM": 4,
+    "LOW": 3
+  },
+  "critical_flaws": [
+    "vsftpd 2.3.4 Backdoor RCE (CVE-2011-2523)",
+    "Samba username map script RCE (CVE-2007-2447)",
+    "Unauthenticated Root Shell on Port 1524 (Ingreslock)",
+    "DistCC Compiler Remote Execution (CVE-2004-2687)",
+    "UnrealIRCd 3.2.8.1 Trojaned Backdoor (CVE-2010-2075)"
+  ],
+  "packet_sniffing_evidence": {
+    "telnet_cleartext": "Credentials captured: msfadmin / msfadmin",
+    "ftp_cleartext": "Credentials captured: USER msfadmin, PASS msfadmin"
+  }
+}
