@@ -276,23 +276,3 @@ Major_Project/
     ├── nmap_enterprise_full_assessment.nmap                      # 65535-port Nmap Scan
     ├── nmap_enterprise_vuln_scripts.nmap                         # NSE Vulnerability Audit
     └── nmap_assessment_report.xml                                # Machine-Readable XML
-```
-
----
-
-## 🤝 Trionix Tech Collaboration & Submission
-
-1. **Push Changes to GitHub:**
-   ```bash
-   git add .
-   git commit -m "Add Major Project comprehensive documentation and deliverables"
-   git push origin main
-   ```
-2. **Grant Collaboration Access to Trionix Tech:**
-   - In your repository, click **⚙️ Settings** (top-right tab).
-   - In the left sidebar under **Access**, click **Collaborators**.
-   - Click the green **Add people** button.
-   - Enter **`Trionix-Tech`** and confirm invitation.
-3. **Submit:**
-   - Copy your repository URL (`https://github.com/<your-username>/<your-repo-name>`).
-   - Submit through the **Trionix Tech Project Submission Form**.
